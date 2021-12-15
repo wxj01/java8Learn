@@ -12,7 +12,7 @@ import java.util.*;
  * @description: TODO
  * @date 2021/12/15 0015 16:28
  */
-@Slf4j
+
 public class TestLambda {
 
     //原来的匿名内部类
@@ -49,6 +49,12 @@ public class TestLambda {
         for (Employee e:emps) {
             System.out.println(e);
         }
+    }
+
+    @Test
+    public void test4(){
+        //工资大于3000的
+//        List<Employee> emps = filterEmployees2(employees);
     }
 
     private List<Employee> filterEmployees1(List<Employee> employees) {
