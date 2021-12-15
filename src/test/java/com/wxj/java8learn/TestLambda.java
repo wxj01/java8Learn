@@ -1,7 +1,6 @@
 package com.wxj.java8learn;
 
 import com.wxj.bean.Employee;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -49,12 +48,22 @@ public class TestLambda {
         for (Employee e:emps) {
             System.out.println(e);
         }
+
+        //工资大于3000的
+        List<Employee> emps2 = filterEmployees2(employees);
+        for (Employee e: emps2) {
+            System.out.println(e);
+        }
     }
 
-    @Test
-    public void test4(){
-        //工资大于3000的
-//        List<Employee> emps = filterEmployees2(employees);
+    private List<Employee> filterEmployees2(List<Employee> employees) {
+        List<Employee> emps = new ArrayList<>();
+        for (Employee e:employees) {
+            if (e.getSalary() > 3000){
+                emps.add(e);
+            }
+        }
+        return emps;
     }
 
     private List<Employee> filterEmployees1(List<Employee> employees) {
@@ -66,4 +75,12 @@ public class TestLambda {
         }
         return emps;
     }
+
+
+    //优化方式1：策略设计模式
+    @Test
+    public void test4(){
+//        List<Employee> emps = filterEmployees(employees);
+    }
+
 }
