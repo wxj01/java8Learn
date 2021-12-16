@@ -1,6 +1,7 @@
 package com.wxj.java8learn;
 
 import com.wxj.bean.Employee;
+import com.wxj.service.MyPredicate;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -81,6 +82,22 @@ public class TestLambda {
     @Test
     public void test4(){
 //        List<Employee> emps = filterEmployees(employees);
+    }
+
+    @Test
+    public void test6(){
+        List<Employee> list = filterEmployees(employees,(e)-> e.getSalary() > 3000);
+        list.forEach(System.out::println);
+    }
+
+    private List<Employee> filterEmployees(List<Employee> employees, MyPredicate<Employee> myPredicate) {
+        List<Employee> emps = new ArrayList<>();
+        for (Employee e:employees) {
+            if (myPredicate.test(e)){
+                emps.add(e);
+            }
+        }
+        return emps;
     }
 
 }
