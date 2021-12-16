@@ -15,7 +15,7 @@ import lombok.*;
 @Setter
 public class Employee {
     private String name;
-    private int age;
+    private Integer age;
     private double salary;
 
     public Employee(int age) {
