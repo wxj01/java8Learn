@@ -4,9 +4,8 @@ import com.wxj.bean.Employee;
 import com.wxj.bean.Status;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author wxj
@@ -67,4 +66,118 @@ public class TestStreamTerminate {
     }
 
 
+    /*
+     * 归约
+     * reduce(T identity,BinaryOperator b) / reduce(BinaryOperator b)-可以将流中元素反复结合起来，得到一个值。
+     */
+    @Test
+    public void test3(){
+        List<Integer> list=Arrays.asList(1,2,3,4,5,6,7,8,9,10);
+        Integer sum = list.stream() //reduce(T identity,BinaryOperator b)
+                .reduce(0, (x, y) -> x + y);//0为起始值
+        System.out.println(sum);
+
+        System.out.println("------------------------------");
+
+        Optional<Double> op = employees.stream()//reduce(BinaryOperator b)//没有起始值，map返回可能为空，所以返回Optional类型
+                .map(Employee::getSalary)
+                .reduce(Double::sum);
+        System.out.println(op.get());
+    }
+
+    @Test
+    public void test4(){
+        List<String> list = employees.stream()
+                .map(Employee::getName)
+                .collect(Collectors.toList());
+        list.forEach(System.out::println);
+
+        System.out.println("-----------------------");
+        Set<String> set = employees.stream()
+                .map(Employee::getName)
+                .collect(Collectors.toSet());
+        set.forEach(System.out::println);
+
+        System.out.println("------------------------------");
+
+        HashSet<String> hs = employees.stream()
+                .map(Employee::getName)
+                .collect(Collectors.toCollection(HashSet::new));
+        hs.forEach(System.out::println);
+
+        System.out.println("--------------------------------");
+
+        //总和
+        Long count = employees.stream()
+                .collect(Collectors.counting());
+        System.out.println(count);
+
+        //平均值
+        Double avg = employees.stream()
+//                .map(Employee::getSalary)
+                .collect(Collectors.averagingDouble(Employee::getSalary));
+
+        System.out.println(avg);
+
+        //总和
+        Double sum = employees.stream()
+                .collect(Collectors.summingDouble(Employee::getSalary));
+        System.out.println(sum);
+
+        //最大值
+        Optional<Employee> max = employees.stream()
+                .collect(Collectors.maxBy((e1, e2) -> Double.compare(e1.getSalary(), e2.getSalary())));
+        System.out.println(max.get());
+
+        //最小值
+        Optional<Double> min = employees.stream()
+                .map(Employee::getSalary)
+                .collect(Collectors.minBy(Double::compare));
+        System.out.println(min.get());
+
+        Optional<Employee> min2 = employees.stream()
+                .collect(Collectors.minBy((e1, e2) -> Double.compare(e1.getSalary(), e2.getSalary())));
+        System.out.println(min2.get());
+
+        System.out.println("----------------------------");
+
+        //分组
+        Map<Status, List<Employee>> map = employees.stream()
+                .collect(Collectors.groupingBy(Employee::getStatus));
+        System.out.println(map);
+
+        //多级分组
+        Map<Status, Map<String, List<Employee>>> map2 = employees.stream()
+                .collect(Collectors.groupingBy(Employee::getStatus, Collectors.groupingBy((e) -> {
+                    if (e.getAge() <= 35) {
+                        return "青年";
+                    } else if (e.getAge() <= 50) {
+                        return "中年";
+                    } else {
+                        return "老年";
+                    }
+                })));
+        System.out.println(map2);
+
+        //分区
+        Map<Boolean, List<Employee>> map3 = employees.stream()
+                .collect(Collectors.partitioningBy(e -> e.getSalary() > 8000));
+        System.out.println(map3);
+        System.out.println("-------------------------------");
+
+        DoubleSummaryStatistics dss = employees.stream()
+                .collect(Collectors.summarizingDouble(Employee::getSalary));
+        System.out.println(dss.getSum());
+        System.out.println(dss.getAverage());
+        System.out.println(dss.getMax());
+
+        System.out.println("-------------------------------");
+
+
+        String strr = employees.stream()
+                .map(Employee::getName)
+                .collect(Collectors.joining(","));
+        System.out.println(strr);
+
+    }
 }
