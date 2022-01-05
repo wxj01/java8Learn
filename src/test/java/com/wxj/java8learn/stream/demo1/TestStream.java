@@ -1,4 +1,4 @@
-package com.wxj.java8learn;
+package com.wxj.java8learn.stream.demo1;
 
 import com.wxj.bean.Employee;
 import org.junit.jupiter.api.Test;

@@ -21,7 +21,13 @@ public class ForkJoinCalculate extends RecursiveTask<Long> {
 
     private long start;
     private long end;
-    private static final long THRESHOLD = 10000L; // 临界值
+    /**
+     * @description: TODO 临界值
+     * @author wangxinjian
+     * @date 2022/1/5 0005 19:27
+     * @version 1.0
+     */
+    private static final long THRESHOLD = 10000L;
 
 
 
