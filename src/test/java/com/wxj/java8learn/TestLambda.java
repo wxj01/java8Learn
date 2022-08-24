@@ -1,10 +1,13 @@
 package com.wxj.java8learn;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.wxj.bean.Employee;
 import com.wxj.service.MyPredicate;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author wxj
@@ -41,6 +44,28 @@ public class TestLambda {
             new Employee("王五",18,4000.1),
             new Employee("赵六",19,5000.1)
     );
+
+    /**
+     * 将list 转成 map
+     */
+    @Test
+    public void  testListToMap(){
+        Map<String,Employee> map = new HashMap<>();
+        employees.forEach(employee -> {
+            map.put(employee.getName(),employee);
+        });
+
+        Map<String, Employee> collect = employees.stream().collect(Collectors.toMap(Employee::getName, e -> e, (v1, v2) -> v1));
+
+        System.out.println(map);
+
+//        JSONObject jsonObject = JSONObject.parseObject(String.valueOf(collect));
+
+        String jsonString = JSON.toJSONString(map);
+
+        System.out.println("xxxx:"+collect);
+        System.out.println(jsonString);
+    }
 
     @Test
     public void test3(){
